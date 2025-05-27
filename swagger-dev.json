@@ -1551,6 +1551,400 @@
           "Public"
         ]
       }
+    },
+    "/wallet/v1/contract/all": {
+      "get": {
+        "operationId": "ContractReadController_findAll",
+        "summary": "Get all contracts",
+        "description": "Get all contracts",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "All contracts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContractApiResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Contract",
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/contract/version-chainid": {
+      "get": {
+        "operationId": "ContractReadController_findByChainIdAndVersion",
+        "summary": "Get contract by version and chain id",
+        "description": "Get contract by version and chain id",
+        "parameters": [
+          {
+            "name": "version",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Contract by version and chain id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Contract",
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/wallet/claim": {
+      "post": {
+        "operationId": "WalletWriteController_claim",
+        "summary": "Claim identity",
+        "description": "Claim identity",
+        "parameters": [
+          {
+            "name": "x-justaname-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletClaimIdentityApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletClaimIdentityApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/user/check": {
+      "get": {
+        "operationId": "UserWriteController_check",
+        "summary": "Check user",
+        "description": "Check user",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCheckApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/register/intent": {
+      "post": {
+        "operationId": "RegisterController_registerIntent",
+        "summary": "Register intent",
+        "description": "Register intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/register/fulfill": {
+      "post": {
+        "operationId": "RegisterController_registerFulfill",
+        "summary": "Register fulfill",
+        "description": "Register fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterFulfillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/login/intent": {
+      "post": {
+        "operationId": "LoginController_loginIntent",
+        "summary": "Login intent",
+        "description": "Login intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/login/fulfill": {
+      "post": {
+        "operationId": "LoginController_loginFulfill",
+        "summary": "Login fulfill",
+        "description": "Login fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginFulFillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/sign/intent": {
+      "post": {
+        "operationId": "SignController_signIntent",
+        "summary": "Sign intent",
+        "description": "Sign intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/sign/fulfill": {
+      "post": {
+        "operationId": "SignController_signFulfill",
+        "summary": "Sign fulfill",
+        "description": "Sign fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignFulfillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/logout": {
+      "post": {
+        "operationId": "LogoutController_logout",
+        "summary": "Logout",
+        "description": "Logout",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/query-wallets": {
+      "get": {
+        "operationId": "QueryWalletsController_queryWallets",
+        "summary": "Query wallets",
+        "description": "Query wallets",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryWalletsApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
     }
   },
   "components": {
@@ -2220,6 +2614,301 @@
         "required": [
           "statusCode",
           "result"
+        ]
+      },
+      "ContractApiResponse": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number"
+          },
+          "chainId": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "address",
+          "name",
+          "version",
+          "chainId"
+        ]
+      },
+      "WalletClaimIdentityApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "description": "ENS name",
+            "example": "user.jan.eth"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "description": "Whether the ENS name is claimed",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "description": "When the ENS name was claimed",
+            "example": "2023-04-30T14:32:21Z",
+            "nullable": true
+          },
+          "isJAN": {
+            "type": "boolean",
+            "description": "Whether the ENS name is a JAN name",
+            "example": true
+          },
+          "records": {
+            "description": "ENS records",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ens",
+          "isJAN",
+          "records"
+        ]
+      },
+      "UserCheckApiResponse": {
+        "type": "object",
+        "properties": {
+          "workspaceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "appSpecific": {
+            "type": "boolean"
+          },
+          "activated": {
+            "type": "boolean"
+          },
+          "wallets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "workspaceIds",
+          "appSpecific",
+          "activated",
+          "wallets"
+        ]
+      },
+      "RegisterIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserResponseDto"
+          },
+          "temporaryAuthenticationToken": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "supportedCredentialKinds": {
+            "$ref": "#/components/schemas/SupportedCredentialKindsDto"
+          },
+          "authenticatorSelection": {
+            "$ref": "#/components/schemas/AuthenticatorSelectionDto"
+          },
+          "attestation": {
+            "type": "object"
+          },
+          "pubKeyCredParams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "excludeCredentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "otpUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user",
+          "temporaryAuthenticationToken",
+          "challenge",
+          "supportedCredentialKinds",
+          "authenticatorSelection",
+          "attestation",
+          "pubKeyCredParams",
+          "excludeCredentials",
+          "otpUrl"
+        ]
+      },
+      "RegisterFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserResponseDto"
+          },
+          "authentication": {
+            "$ref": "#/components/schemas/AuthenticationResponseDto"
+          },
+          "wallets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WalletResponseDto"
+            }
+          }
+        },
+        "required": [
+          "user",
+          "authentication",
+          "wallets"
+        ]
+      },
+      "LoginIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "supportedCredentialKinds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportedCredentialKindDto"
+            }
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "challengeIdentifier": {
+            "type": "string"
+          },
+          "externalAuthenticationUrl": {
+            "type": "string"
+          },
+          "allowCredentials": {
+            "$ref": "#/components/schemas/AllowCredentialsDto"
+          },
+          "attestation": {
+            "type": "object"
+          },
+          "userVerification": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "supportedCredentialKinds",
+          "challenge",
+          "challengeIdentifier",
+          "externalAuthenticationUrl",
+          "allowCredentials",
+          "attestation",
+          "userVerification"
+        ]
+      },
+      "LoginFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "success"
+        ]
+      },
+      "SignIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "supportedCredentialKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "challengeIdentifier": {
+            "type": "string"
+          },
+          "externalAuthenticationUrl": {
+            "type": "string"
+          },
+          "allowCredentials": {
+            "$ref": "#/components/schemas/AllowCredentialsDto"
+          },
+          "userVerification": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "supportedCredentialKinds",
+          "challenge",
+          "challengeIdentifier",
+          "externalAuthenticationUrl",
+          "allowCredentials",
+          "userVerification"
+        ]
+      },
+      "SignFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "network": {
+            "type": "object"
+          },
+          "status": {
+            "type": "object"
+          },
+          "signature": {
+            "$ref": "#/components/schemas/SignatureDto"
+          },
+          "dateRequested": {
+            "type": "string"
+          },
+          "dateSigned": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "network",
+          "status",
+          "dateRequested"
+        ]
+      },
+      "LogoutApiResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "QueryWalletsApiResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "items"
         ]
       }
     }
