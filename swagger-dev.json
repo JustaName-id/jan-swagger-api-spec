@@ -169,6 +169,223 @@
         ]
       }
     },
+    "/ens/v2/offchain-resolvers/criteria": {
+      "get": {
+        "operationId": "OffchainResolverReadController_findAllByCriteria",
+        "summary": "Get All Offchain Resolvers By Criteria",
+        "description": "Get All Offchain Resolvers By Criteria",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": false,
+            "in": "query",
+            "description": "The id to filter by",
+            "schema": {
+              "example": "1111-1111-1111-1111",
+              "type": "string"
+            }
+          },
+          {
+            "name": "resolverAddress",
+            "required": false,
+            "in": "query",
+            "description": "The resolver address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensRegistryAddress",
+            "required": false,
+            "in": "query",
+            "description": "The ens registry address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id to filter by",
+            "required": false,
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "example": "1111-1111-1111-1111",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The resolver address to filter by",
+            "required": false,
+            "name": "resolverAddress",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens registry address to filter by",
+            "required": false,
+            "name": "ensRegistryAddress",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": false,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The environment to filter by",
+            "required": false,
+            "name": "environment",
+            "in": "query",
+            "schema": {
+              "example": "MAINNET",
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Offchain Resolvers were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffchainResolverGetAllByCriteriaApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OffchainResolvers",
+          "Public"
+        ]
+      }
+    },
     "/ens/v1/subname/accept": {
       "post": {
         "operationId": "SubdomainWriteController_accept",
@@ -541,6 +758,397 @@
         ]
       }
     },
+    "/ens/v2/subname": {
+      "get": {
+        "operationId": "SubdomainReadController_find",
+        "summary": "Get Subname by Criteria",
+        "description": "Retrieves the subname matching the specified criteria",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname to search for",
+            "schema": {
+              "example": "x.y.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname to search for",
+            "name": "subname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "x.y.eth",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subname was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubdomainGetApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No subname found matching the specified criteria"
+          }
+        },
+        "tags": [
+          "Subname",
+          "Public"
+        ]
+      }
+    },
+    "/ens/v2/subname/all": {
+      "get": {
+        "operationId": "SubdomainReadController_findAll",
+        "summary": "Get All Subnames by Criteria",
+        "description": "Retrieves all subnames matching the specified criteria",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "The term to search for in domain names",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "description": "The workspace id to filter by",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensDomains",
+            "required": false,
+            "in": "query",
+            "description": "The ens domains to filter by",
+            "schema": {
+              "example": [
+                "x.eth",
+                "y.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "coinType",
+            "required": false,
+            "in": "query",
+            "description": "The address coin type to filter by",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "Claimed status to filter by",
+            "schema": {
+              "default": true,
+              "example": "true",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The term to search for in domain names",
+            "required": false,
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The workspace id to filter by",
+            "required": false,
+            "name": "workspaceId",
+            "in": "query",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens domains to filter by",
+            "required": false,
+            "name": "ensDomains",
+            "in": "query",
+            "schema": {
+              "example": [
+                "x.eth",
+                "y.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The address coin type to filter by",
+            "required": false,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Claimed status to filter by",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "default": true,
+              "example": "true",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subnames were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubdomainGetAllApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Public"
+        ]
+      }
+    },
     "/ens/v1/subname/subname": {
       "get": {
         "operationId": "SubdomainReadController_getSubname",
@@ -622,6 +1230,7 @@
           }
         },
         "tags": [
+          "Subname",
           "Subname",
           "Public"
         ]
@@ -769,6 +1378,7 @@
         },
         "tags": [
           "Subname",
+          "Subname",
           "Public"
         ]
       }
@@ -909,6 +1519,7 @@
         },
         "tags": [
           "Subname",
+          "Subname",
           "Public"
         ]
       }
@@ -995,6 +1606,7 @@
         },
         "tags": [
           "Subname",
+          "Subname",
           "Public"
         ]
       }
@@ -1080,6 +1692,7 @@
           }
         },
         "tags": [
+          "Subname",
           "Subname",
           "Public"
         ]
@@ -1198,6 +1811,7 @@
           }
         },
         "tags": [
+          "Subname",
           "Subname",
           "Public"
         ]
@@ -1345,6 +1959,7 @@
         },
         "tags": [
           "Subname",
+          "Subname",
           "Public"
         ]
       }
@@ -1418,6 +2033,192 @@
         },
         "tags": [
           "Primary Name",
+          "Public"
+        ]
+      }
+    },
+    "/ens/v2/primary-name/criteria": {
+      "get": {
+        "operationId": "PrimaryNameReadController_findAllByCriteria",
+        "summary": "Get All Primary Names By Criteria",
+        "description": "Get All Primary Names By Criteria",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "nameHash",
+            "required": false,
+            "in": "query",
+            "description": "The name hash to filter by",
+            "schema": {
+              "example": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The name hash to filter by",
+            "required": false,
+            "name": "nameHash",
+            "in": "query",
+            "schema": {
+              "example": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Primary Names were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimaryNameGetAllByCriteriaApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
           "Public"
         ]
       }
@@ -2084,6 +2885,24 @@
           "error"
         ]
       },
+      "OffchainResolverGetAllByCriteriaApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OffchainResolverApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
       "SubnameAcceptApiResponse": {
         "type": "object",
         "properties": {
@@ -2324,6 +3143,55 @@
           "result"
         ]
       },
+      "SubdomainGetApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubdomainGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
       "SubnameGetByNameAndChainIdApiResponse": {
         "type": "object",
         "properties": {
@@ -2537,6 +3405,24 @@
         "required": [
           "statusCode",
           "result"
+        ]
+      },
+      "PrimaryNameGetAllByCriteriaApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrimaryNameApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
         ]
       },
       "PrimaryNameAddApiResponse": {
