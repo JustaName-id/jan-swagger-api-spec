@@ -2437,7 +2437,7 @@
         ]
       }
     },
-    "/wallet/v1/wallet/claim": {
+    "/wallet/v1/identity/claim": {
       "post": {
         "operationId": "WalletWriteController_claim",
         "summary": "Claim identity",
