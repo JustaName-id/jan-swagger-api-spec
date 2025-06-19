@@ -2380,63 +2380,6 @@
         ]
       }
     },
-    "/wallet/v1/contract/version-chainid": {
-      "get": {
-        "operationId": "ContractReadController_findByChainIdAndVersion",
-        "summary": "Get contract by version and chain id",
-        "description": "Get contract by version and chain id",
-        "parameters": [
-          {
-            "name": "version",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "chainId",
-            "required": true,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "version",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "chainId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "number"
-            }
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Contract by version and chain id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContractApiResponse"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Contract",
-          "Public"
-        ]
-      }
-    },
     "/wallet/v1/identity/claim": {
       "post": {
         "operationId": "WalletWriteController_claim",
@@ -3514,15 +3457,18 @@
           "version": {
             "type": "number"
           },
-          "chainId": {
-            "type": "number"
+          "chainIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": [
           "address",
           "name",
           "version",
-          "chainId"
+          "chainIds"
         ]
       },
       "WalletClaimIdentityApiResponse": {
