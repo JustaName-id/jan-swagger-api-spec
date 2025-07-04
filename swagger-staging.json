@@ -39,6 +39,10 @@
       "description": ""
     },
     {
+      "name": "Proxy",
+      "description": ""
+    },
+    {
       "name": "Public",
       "description": ""
     }
@@ -2349,7 +2353,256 @@
           }
         },
         "tags": [
-          "Public"
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/tokens": {
+      "get": {
+        "operationId": "PortfolioController_getTokensForAddress",
+        "summary": "Get Tokens for Address",
+        "description": "Retrieve tokens for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching tokens for an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokensQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/TokensForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/transactions": {
+      "get": {
+        "operationId": "PortfolioController_getTransactionsForAddress",
+        "summary": "Get Transactions for Address",
+        "description": "Retrieve transactions for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching transactions of an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionsQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transactions for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/TxHistoryForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/nfts": {
+      "get": {
+        "operationId": "PortfolioController_getNftsForAddress",
+        "summary": "Get Nfts for Address",
+        "description": "Retrieve nfts for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching nfts for an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NftsQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Nfts for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/NftsForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
         ]
       }
     },
@@ -3438,6 +3691,99 @@
           },
           "result": {
             "$ref": "#/components/schemas/ApiKeyApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "TokensForAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationApiResponse"
+          }
+        },
+        "required": [
+          "tokens",
+          "pagination"
+        ]
+      },
+      "TokensForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/TokensForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "TxHistoryForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/TransactionsForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "NftsForAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "nfts": {
+            "description": "Array of NFT data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NftApiResponse"
+            }
+          },
+          "pagination": {
+            "description": "Pagination information for the NFT list",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationApiResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "nfts",
+          "pagination"
+        ]
+      },
+      "NftsForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/NftsForAddressApiResponseResultSwagger"
           }
         },
         "required": [
