@@ -1,46 +1,2674 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "My API",
-    "description": "",
+    "title": "JustaName API Reference",
+    "description": "Welcome to the JustaName API Reference, our centralized location for all things JustaName. Here you can find all the APIs needed to integrate with our services.",
     "version": "1.0",
     "contact": {}
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "https://api.justaname.id"
+    },
+    {
+      "url": "https://api-staging.justaname.id"
+    },
+    {
+      "url": "http://localhost:8000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "ApiKey",
+      "description": ""
+    },
+    {
+      "name": "Proxy",
+      "description": ""
+    },
+    {
+      "name": "Public",
+      "description": ""
+    }
+  ],
   "paths": {
-    "/api/user/{id}": {
+    "/ens/v2/siwe/challenges": {
+      "post": {
+        "operationId": "SiweV2WriteController_challenge",
+        "summary": "Request a challenge",
+        "description": "Request a challenge to sign",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "The domain, address, origin and chainId of the challenge",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SiweChallengeApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The requested challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiweChallengeApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Siwe V2"
+        ]
+      }
+    },
+    "/ens/v2/siwe/verify": {
+      "post": {
+        "operationId": "SiweV2WriteController_verify",
+        "summary": "Verify a message",
+        "description": "Verify a message.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "The signature, message and address of the message to verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SiweVerifyApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The message was verified successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SiweVerifyApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Siwe V2"
+        ]
+      }
+    },
+    "/ens/v1/offchain-resolvers": {
       "get": {
-        "operationId": "AppController_getUser",
+        "operationId": "OffchainResolverReadController_findAll",
+        "summary": "Get All Offchain Resolver",
+        "description": "Get All Offchain Resolver",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "Offchain Resolvers were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffchainResolverGetAllApiResponseResultSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OffchainResolvers"
+        ]
+      }
+    },
+    "/ens/v1/offchain-resolvers/{id}": {
+      "get": {
+        "operationId": "OffchainResolverReadController_findById",
+        "summary": "Get Offchain Resolver By Id",
+        "description": "Get Offchain Resolver By Id",
         "parameters": [
           {
             "name": "id",
             "required": true,
             "in": "path",
             "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Offchain Resolver was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffchainResolverGetByIdApiResponseResultSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OffchainResolvers"
+        ]
+      }
+    },
+    "/ens/v2/offchain-resolvers/criteria": {
+      "get": {
+        "operationId": "OffchainResolverReadController_findAllByCriteria",
+        "summary": "Get All Offchain Resolvers By Criteria",
+        "description": "Get All Offchain Resolvers By Criteria",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "required": false,
+            "in": "query",
+            "description": "The id to filter by",
+            "schema": {
+              "example": "1111-1111-1111-1111",
+              "type": "string"
+            }
+          },
+          {
+            "name": "resolverAddress",
+            "required": false,
+            "in": "query",
+            "description": "The resolver address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensRegistryAddress",
+            "required": false,
+            "in": "query",
+            "description": "The ens registry address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": false,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id to filter by",
+            "required": false,
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "example": "1111-1111-1111-1111",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The resolver address to filter by",
+            "required": false,
+            "name": "resolverAddress",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens registry address to filter by",
+            "required": false,
+            "name": "ensRegistryAddress",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": false,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The environment to filter by",
+            "required": false,
+            "name": "environment",
+            "in": "query",
+            "schema": {
+              "example": "MAINNET",
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Offchain Resolvers were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffchainResolverGetAllByCriteriaApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OffchainResolvers"
+        ]
+      }
+    },
+    "/ens/v2/subname": {
+      "get": {
+        "operationId": "SubdomainReadController_find",
+        "summary": "Get Subname by Criteria",
+        "description": "Retrieves the subname matching the specified criteria",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname to search for",
+            "schema": {
+              "example": "x.y.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname to search for",
+            "name": "subname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "x.y.eth",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subname was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubdomainGetApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No subname found matching the specified criteria"
+          }
+        },
+        "tags": [
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v2/subname/all": {
+      "get": {
+        "operationId": "SubdomainReadController_findAll",
+        "summary": "Get All Subnames by Criteria",
+        "description": "Retrieves all subnames matching the specified criteria",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "The term to search for in domain names",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "description": "The workspace id to filter by",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensDomains",
+            "required": false,
+            "in": "query",
+            "description": "The ens domains to filter by",
+            "schema": {
+              "example": [
+                "x.eth",
+                "y.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "coinType",
+            "required": false,
+            "in": "query",
+            "description": "The address coin type to filter by",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "Claimed status to filter by",
+            "schema": {
+              "default": true,
+              "example": "true",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The term to search for in domain names",
+            "required": false,
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The workspace id to filter by",
+            "required": false,
+            "name": "workspaceId",
+            "in": "query",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens domains to filter by",
+            "required": false,
+            "name": "ensDomains",
+            "in": "query",
+            "schema": {
+              "example": [
+                "x.eth",
+                "y.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The address coin type to filter by",
+            "required": false,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Claimed status to filter by",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "default": true,
+              "example": "true",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subnames were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubdomainGetAllApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/subname": {
+      "get": {
+        "operationId": "SubdomainReadController_getSubname",
+        "summary": "Get by Subname",
+        "description": "Retrieves subname details based on the specified subname and chainId",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname",
+            "schema": {
+              "example": "ghadi.justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname",
+            "name": "subname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "ghadi.justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": 1,
               "type": "number"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "Subname was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameGetByNameAndChainIdApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
           }
         },
         "tags": [
-          "App"
+          "Subname",
+          "Subname"
         ]
       }
     },
-    "/api/login": {
+    "/ens/v1/subname/ens": {
+      "get": {
+        "operationId": "SubdomainReadController_getSubnamesByEnsDomain",
+        "summary": "Get all by ENS Domain",
+        "description": "Retrieves all subnames associated with the provided ens domain",
+        "parameters": [
+          {
+            "name": "ensDomain",
+            "required": true,
+            "in": "query",
+            "description": "The ENS domain",
+            "schema": {
+              "example": "justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The page number (defaults to 1)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items per page (defaults to 20)",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "if true, will return claimed subdomain, if false, will return unclaimed subdomain, if not provided, will return all subdomains",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "The ENS domain",
+            "name": "ensDomain",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The page number (defaults to 1)",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items per page (defaults to 20)",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "if true, will return claimed subdomain, if false, will return unclaimed subdomain, if not provided, will return all subdomains",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subnames were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameGetAllEnsAndChainIdApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/address": {
+      "get": {
+        "operationId": "SubdomainReadController_getSubnamesByAddress",
+        "summary": "Get all by Address",
+        "description": "Retrieves all subnames associated with an address",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "The address of the subdomain",
+            "schema": {
+              "example": "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "if true, will return claimed subdomain, if false, will return unclaimed subdomain, if not provided, will return all subdomains",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "ensDomains",
+            "required": false,
+            "in": "query",
+            "description": "Array of ensDomains to filter the subnames by",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "The address of the subdomain",
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The coin type of the address",
+            "required": false,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "object"
+            }
+          },
+          {
+            "description": "if true, will return claimed subdomain, if false, will return unclaimed subdomain, if not provided, will return all subdomains",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Array of ensDomains to filter the subnames by",
+            "required": false,
+            "name": "ensDomains",
+            "in": "query",
+            "schema": {
+              "example": [
+                "jan.eth"
+              ],
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subnames were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameGetSubnamesByAddressApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/records": {
+      "get": {
+        "operationId": "SubdomainReadController_getSubnameRecords",
+        "summary": "Fetch Records - onchain",
+        "description": "Retrieves all records associated with a subname - goes through CCIP-Read flow to fetch records",
+        "parameters": [
+          {
+            "name": "ens",
+            "required": true,
+            "in": "query",
+            "description": "The subname",
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerUrl",
+            "required": true,
+            "in": "query",
+            "description": "Provider URL",
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The subname",
+            "name": "ens",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Provider URL",
+            "name": "providerUrl",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Records were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameGetRecordsApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/available": {
+      "get": {
+        "operationId": "SubdomainReadController_isUsernameAvailable",
+        "summary": "Is Subname Available",
+        "description": "Checks if a username is available for a given ENS domain",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname",
+            "schema": {
+              "example": "user.justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname",
+            "name": "subname",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": "user.justan.id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subname was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameIsSubnameAvailableApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/search": {
+      "get": {
+        "operationId": "SubdomainReadController_searchSubnames",
+        "summary": "Search Subnames",
+        "description": "Search subnames based on the provided query",
+        "parameters": [
+          {
+            "name": "name",
+            "required": true,
+            "in": "query",
+            "description": "The full name of the subdomain",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "The full name of the subdomain",
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "description": "The offset",
+            "name": "skip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "description": "The Take",
+            "name": "take",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "description": "The metadata",
+            "name": "data",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "description": "Check if ens is registered",
+            "name": "ensRegistered",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subnames search was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameSearchApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v1/subname/ens-list": {
+      "get": {
+        "operationId": "SubdomainReadController_getAllEnsWithSubnameCount",
+        "summary": "Get All Ens with Subname count",
+        "description": "Get All Ens with Subname count",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The page number (defaults to 1)",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items per page (defaults to 20)",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The field to order by",
+            "schema": {
+              "example": "subnameCount",
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The direction to order by",
+            "schema": {
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "name": "chainId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The page number (defaults to 1)",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items per page (defaults to 20)",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The field to order by",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "subnameCount",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The direction to order by",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "asc",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ens were fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/SubnameGetAllEnsWithSubnameCountApiResponse"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname",
+          "Subname"
+        ]
+      }
+    },
+    "/ens/v2/subnames": {
+      "get": {
+        "operationId": "SubnameV2ReadController_find",
+        "summary": "Get Subname by Criteria",
+        "description": "Retrieves the subname matching the specified criteria",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname to search for",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname to search for",
+            "required": true,
+            "name": "subname",
+            "in": "query",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No subname found matching the specified criteria"
+          },
+          "default": {
+            "description": "Subname fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameGetApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      },
       "post": {
-        "operationId": "AppController_login",
-        "parameters": [],
+        "operationId": "SubnameV2WriteController_add",
+        "summary": "Add Subname",
+        "description": "Add a new subname",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameAddApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The added subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameAddApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/all": {
+      "get": {
+        "operationId": "SubnameV2ReadController_findAll",
+        "summary": "Get All Subnames by Criteria",
+        "description": "Retrieves all subnames matching the specified criteria",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "The term to search for in domain names",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "description": "The workspace id to filter by",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensDomains",
+            "required": false,
+            "in": "query",
+            "description": "The ens domains to filter by",
+            "schema": {
+              "example": [
+                "jan.eth",
+                "example.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "coinType",
+            "required": false,
+            "in": "query",
+            "description": "The address coin type to filter by",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "Claimed status to filter by",
+            "schema": {
+              "default": true,
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Page number for pagination",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Number of items per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The term to search for in domain names",
+            "required": false,
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The workspace id to filter by",
+            "required": false,
+            "name": "workspaceId",
+            "in": "query",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens domains to filter by",
+            "required": false,
+            "name": "ensDomains",
+            "in": "query",
+            "schema": {
+              "example": [
+                "jan.eth",
+                "example.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The address coin type to filter by",
+            "required": false,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Claimed status to filter by",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "default": true,
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Subnames fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameGetAllApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/records": {
+      "get": {
+        "operationId": "SubnameV2ReadController_getRecords",
+        "summary": "Fetch Subname Records",
+        "description": "Retrieves all records associated with a subname through on-chain CCIP-Read flow",
+        "parameters": [
+          {
+            "name": "ens",
+            "required": true,
+            "in": "query",
+            "description": "The subname to fetch records for",
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerUrl",
+            "required": true,
+            "in": "query",
+            "description": "Provider URL",
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The subname to fetch records for",
+            "required": true,
+            "name": "ens",
+            "in": "query",
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Provider URL",
+            "required": true,
+            "name": "providerUrl",
+            "in": "query",
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Records fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameRecordsApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/{subname}": {
+      "patch": {
+        "operationId": "SubnameV2WriteController_update",
+        "summary": "Update Subname",
+        "description": "Update the specified subname's data",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname to update",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname update data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameUpdateApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The updated subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameUpdateApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/invitations": {
+      "post": {
+        "operationId": "SubnameV2WriteController_reserve",
+        "summary": "Reserve Subname",
+        "description": "Reserve Subname to be claimed later.",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname to reserve",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameReserveApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The reserved subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameReserveApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/invitations/{subname}": {
+      "patch": {
+        "operationId": "SubnameV2WriteController_accept",
+        "summary": "Accept Subname",
+        "description": "Accept the specified subname invitation.",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname to accept",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname acceptance data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameAcceptApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The accepted subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameAcceptApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      },
+      "delete": {
+        "operationId": "SubnameV2WriteController_revoke",
+        "summary": "Revoke Subname",
+        "description": "Revoke the specified subname invitation",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname invitation to revoke",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Optional signature data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameRevokeApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The revoked subname invitation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameRevokeApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/primary-names/{address}/{chainId}": {
+      "get": {
+        "operationId": "PrimaryNameV2ReadController_findOne",
+        "summary": "Get Primary Name",
+        "description": "Retrieves primary name for a given address and chainId",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "The address of the primary name",
+            "schema": {
+              "example": "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "path",
+            "description": "The chain id of the primary name, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "enum": [
+                1,
+                11155111
+              ],
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "The primary name for the given address and chainId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimaryNameApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Primary Name V2"
+        ]
+      }
+    },
+    "/ens/v2/primary-names/{chainId}": {
+      "get": {
+        "operationId": "PrimaryNameV2ReadController_findAllByCriteria",
+        "summary": "Get All Primary Names",
+        "description": "Get All Primary Names for a specific chain with optional filtering",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "path",
+            "description": "The chain id to get primary names for, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "enum": [
+                1,
+                11155111
+              ],
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "The requested page number",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "The number of items to return per page",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "nameHash",
+            "required": false,
+            "in": "query",
+            "description": "The name hash to filter by",
+            "schema": {
+              "example": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested page number",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "default": 1,
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The number of items to return per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "default": 20,
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The name hash to filter by",
+            "required": false,
+            "name": "nameHash",
+            "in": "query",
+            "schema": {
+              "example": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Primary names that match the criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimaryNameGetAllApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Primary Name V2"
+        ]
+      }
+    },
+    "/ens/v1/primary-name/set-primary-name": {
+      "post": {
+        "operationId": "PrimaryNameWriteController_setPrimaryName",
+        "summary": "Set Primary Name",
+        "description": "Set a Subname as Primary Name for an address.",
+        "parameters": [
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "$ref": "#/components/schemas/PrimaryNameAddApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The primary name was set successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrimaryNameAddApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Primary Name"
+        ]
+      }
+    },
+    "/ens/v2/primary-names": {
+      "post": {
+        "operationId": "PrimaryNameV2WriteController_setPrimaryName",
+        "summary": "Set Primary Name",
+        "description": "Set a Subname as Primary Name for an address.",
+        "parameters": [
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Primary name data to be set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimaryNameSetApiBodyRequest"
               }
             }
           }
@@ -51,61 +2679,1559 @@
           }
         },
         "tags": [
-          "App"
+          "Primary Name V2"
         ]
       }
     },
-    "/api/product/{productId}": {
+    "/api-key/v1/api-key/key": {
       "get": {
-        "operationId": "ProductController_getProduct",
+        "operationId": "ApiKeyReadController_findByKey",
+        "summary": "Get api key by key",
+        "description": "Get api key by key",
         "parameters": [
           {
-            "name": "productId",
+            "name": "x-api-key",
             "required": true,
-            "in": "path",
+            "in": "header",
+            "description": "The api key",
             "schema": {
               "type": "string"
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Product fetched successfully",
+          "default": {
+            "description": "The api key retreived",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Product"
+                  "$ref": "#/components/schemas/ApiKeyApiResponseSuccessSwagger"
                 }
               }
             }
           }
         },
         "tags": [
-          "Product"
+          "ApiKey"
+        ]
+      }
+    },
+    "/api-key/v2": {
+      "get": {
+        "operationId": "ApiKeyV2ReadController_findCurrent",
+        "summary": "Get Current API Key",
+        "description": "Retrieve the current API key information based on the provided key header",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "description": "The API key to retrieve information for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "The current API key information was retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ApiKey V2"
+        ]
+      }
+    },
+    "/proxy/v1/broadcast/serialiazed": {
+      "post": {
+        "operationId": "BroadcastController_broadcastSerializedTx",
+        "summary": "Broadcast Serialized Transaction",
+        "description": "Broadcast Serialized Transaction",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Broadcast Serialized Transaction",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BroadcastSerializedTxApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Broadcast Serialized Transaction was fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Broadcast",
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/tokens": {
+      "get": {
+        "operationId": "PortfolioController_getTokensForAddress",
+        "summary": "Get Tokens for Address",
+        "description": "Retrieve tokens for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching tokens for an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokensQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tokens for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/TokensForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/transactions": {
+      "get": {
+        "operationId": "PortfolioController_getTransactionsForAddress",
+        "summary": "Get Transactions for Address",
+        "description": "Retrieve transactions for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching transactions of an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionsQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transactions for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/TxHistoryForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/portfolio/nfts": {
+      "get": {
+        "operationId": "PortfolioController_getNftsForAddress",
+        "summary": "Get Nfts for Address",
+        "description": "Retrieve nfts for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter tokens by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter tokens by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching nfts for an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NftsQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Nfts for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/NftsForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/wallet/v1/contract/all": {
+      "get": {
+        "operationId": "ContractReadController_findAll",
+        "summary": "Get all contracts",
+        "description": "Get all contracts",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "All contracts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ContractApiResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Contract",
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/identity/claim": {
+      "post": {
+        "operationId": "WalletWriteController_claim",
+        "summary": "Claim identity",
+        "description": "Claim identity",
+        "parameters": [
+          {
+            "name": "x-justaname-token",
+            "in": "header",
+            "description": "Authentication token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WalletClaimIdentityApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletClaimIdentityApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/user/check": {
+      "get": {
+        "operationId": "UserWriteController_check",
+        "summary": "Check user",
+        "description": "Check user",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserCheckApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/register/intent": {
+      "post": {
+        "operationId": "RegisterController_registerIntent",
+        "summary": "Register intent",
+        "description": "Register intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/register/fulfill": {
+      "post": {
+        "operationId": "RegisterController_registerFulfill",
+        "summary": "Register fulfill",
+        "description": "Register fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterFulfillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/login/intent": {
+      "post": {
+        "operationId": "LoginController_loginIntent",
+        "summary": "Login intent",
+        "description": "Login intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/login/fulfill": {
+      "post": {
+        "operationId": "LoginController_loginFulfill",
+        "summary": "Login fulfill",
+        "description": "Login fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginFulFillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/sign/intent": {
+      "post": {
+        "operationId": "SignController_signIntent",
+        "summary": "Sign intent",
+        "description": "Sign intent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignIntentApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignIntentApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/sign/fulfill": {
+      "post": {
+        "operationId": "SignController_signFulfill",
+        "summary": "Sign fulfill",
+        "description": "Sign fulfill",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignFulfillApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignFulfillApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/logout": {
+      "post": {
+        "operationId": "LogoutController_logout",
+        "summary": "Logout",
+        "description": "Logout",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v1/query-wallets": {
+      "get": {
+        "operationId": "QueryWalletsController_queryWallets",
+        "summary": "Query wallets",
+        "description": "Query wallets",
+        "parameters": [],
+        "responses": {
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryWalletsApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Public"
         ]
       }
     }
   },
   "components": {
     "schemas": {
-      "LoginRequest": {
+      "SiweChallengeApiResponse": {
         "type": "object",
         "properties": {
-          "username": {
+          "challenge": {
             "type": "string",
-            "description": "The username of the user"
-          },
-          "password": {
-            "type": "string",
-            "description": "The password of the user"
+            "description": "The challenge message",
+            "example": "domain wants you to sign in with your Ethereum account:\nAddress\n\nPlease sign this message to verify that you want to add/update your subdomain provided by justawallet to your account Address using JustAName\n\nURI: uri\nVersion: 1\nChain ID: ChainId\nNonce: nonce\nIssued At: Date\nExpiration Time: Date"
           }
         },
         "required": [
-          "username",
-          "password"
+          "challenge"
         ]
       },
-      "Product": {
+      "SiweChallengeApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SiweChallengeApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SiweVerifyApiResponse": {
+        "type": "object",
+        "properties": {
+          "verified": {
+            "type": "boolean",
+            "description": "Whether the Siwe message passed the verification",
+            "example": true
+          }
+        },
+        "required": [
+          "verified"
+        ]
+      },
+      "SiweVerifyApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SiweVerifyApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "OffchainResolverGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "offchainResolvers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OffchainResolverApiResponse"
+            }
+          }
+        },
+        "required": [
+          "offchainResolvers"
+        ]
+      },
+      "OffchainResolverGetAllApiResponseResultSwagger": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OffchainResolverGetAllApiResponse"
+          },
+          "error": {
+            "type": "string",
+            "description": "Null if no error occurred, otherwise the error message."
+          }
+        },
+        "required": [
+          "data",
+          "error"
+        ]
+      },
+      "OffchainResolverGetByIdApiResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "resolverAddress": {
+            "type": "string"
+          },
+          "ensRegistryAddress": {
+            "type": "string"
+          },
+          "chainId": {
+            "type": "number"
+          },
+          "chainName": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "resolverAddress",
+          "ensRegistryAddress",
+          "chainId",
+          "chainName",
+          "environment"
+        ]
+      },
+      "OffchainResolverGetByIdApiResponseResultSwagger": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OffchainResolverGetByIdApiResponse"
+          },
+          "error": {
+            "type": "string",
+            "description": "Null if no error occurred, otherwise the error message."
+          }
+        },
+        "required": [
+          "data",
+          "error"
+        ]
+      },
+      "OffchainResolverGetAllByCriteriaApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OffchainResolverApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameAcceptApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameAcceptApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SubnameAcceptApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameReserveApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameReserveApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SubnameReserveApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameAddApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameAddApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SubnameAddApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameUpdateApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameUpdateApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SubnameUpdateApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameRevokeApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameRevokeApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/SubnameRevokeApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubdomainGetApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubdomainGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameGetByNameAndChainIdApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameGetAllEnsAndChainIdApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameGetSubnamesByAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "subnames": {
+            "example": [
+              {
+                "ens": "user.justan.id",
+                "isClaimed": true,
+                "claimedAt": "2024-05-22T11:55:29.000Z",
+                "isJAN": true,
+                "records": {
+                  "resolverAddress": "0x48De002d3c64e4cFD130A87A35ECD960c01954bc",
+                  "texts": [
+                    {
+                      "key": "com.twitter",
+                      "value": "justaname_id"
+                    }
+                  ],
+                  "coins": [
+                    {
+                      "id": 60,
+                      "name": "eth",
+                      "value": "0x1FA89227d0F42960eb5f5693fAFCF58e255A4dfa"
+                    }
+                  ],
+                  "contentHash": {
+                    "protocolType": "ipfs",
+                    "decoded": "bafybeiafwq5iqeyk73or3dmzyjyqaauyzdwi3xtync7h6kp64umwvsiumi"
+                  }
+                }
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          }
+        },
+        "required": [
+          "subnames"
+        ]
+      },
+      "SubnameGetRecordsApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/RecordApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameIsSubnameAvailableApiResponse": {
+        "type": "object",
+        "properties": {
+          "isAvailable": {
+            "type": "boolean",
+            "example": false,
+            "description": "True if the subname is available, otherwise false."
+          }
+        },
+        "required": [
+          "isAvailable"
+        ]
+      },
+      "SubnameSearchApiResponse": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "registered": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "domains",
+          "registered"
+        ]
+      },
+      "SubnameGetAllEnsWithSubnameCountApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameAllEnsWithSubnameCountApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameGetApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/SubnameMetadataApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameGetApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing subname data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameGetApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Array of subnames",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          },
+          "pagination": {
+            "description": "Pagination information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnamePaginationApiResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameGetAllApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing subnames data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameGetAllApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameRecordsApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/SubnameMetadataApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameRecordsApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing records data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameRecordsApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "PrimaryNameApiResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "justghadi.jaw.eth"
+          },
+          "address": {
+            "type": "string",
+            "example": "0x23d3957be879aba6ca925ee4f072d1a8c4e8c890"
+          },
+          "nameHash": {
+            "type": "string",
+            "example": "0xe16944c2d7405e74b0263328cc8ad84415ba33fbcebd86e57718c72bc7f9442f"
+          },
+          "chainId": {
+            "type": "number",
+            "example": 11155111
+          }
+        },
+        "required": [
+          "name",
+          "address",
+          "nameHash",
+          "chainId"
+        ]
+      },
+      "PrimaryNameApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/PrimaryNameApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "PrimaryNameGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrimaryNameApiResponse"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "PrimaryNameAddApiResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "id"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PrimaryNameAddApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/PrimaryNameAddApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "ApiKeyApiResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -114,14 +4240,434 @@
           "name": {
             "type": "string"
           },
-          "price": {
-            "type": "number"
+          "key": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "workspaceId": {
+            "type": "string"
+          },
+          "creatorId": {
+            "type": "string"
           }
         },
         "required": [
           "id",
           "name",
-          "price"
+          "key",
+          "createdAt",
+          "workspaceId",
+          "creatorId"
+        ]
+      },
+      "ApiKeyApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/ApiKeyApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "TokensForAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "tokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/PaginationApiResponse"
+          }
+        },
+        "required": [
+          "tokens",
+          "pagination"
+        ]
+      },
+      "TokensForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/TokensForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "TxHistoryForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/TransactionsForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "NftsForAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "nfts": {
+            "description": "Array of NFT data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NftApiResponse"
+            }
+          },
+          "pagination": {
+            "description": "Pagination information for the NFT list",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationApiResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "nfts",
+          "pagination"
+        ]
+      },
+      "NftsForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/NftsForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "ContractApiResponse": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "number"
+          },
+          "chainIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "address",
+          "name",
+          "version",
+          "chainIds"
+        ]
+      },
+      "WalletClaimIdentityApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "description": "ENS name",
+            "example": "user.jan.eth"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "description": "Whether the ENS name is claimed",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "description": "When the ENS name was claimed",
+            "example": "2023-04-30T14:32:21Z",
+            "nullable": true
+          },
+          "isJAN": {
+            "type": "boolean",
+            "description": "Whether the ENS name is a JAN name",
+            "example": true
+          },
+          "records": {
+            "description": "ENS records",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RecordResponseDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "ens",
+          "isJAN",
+          "records"
+        ]
+      },
+      "UserCheckApiResponse": {
+        "type": "object",
+        "properties": {
+          "workspaceIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "appSpecific": {
+            "type": "boolean"
+          },
+          "activated": {
+            "type": "boolean"
+          },
+          "wallets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "workspaceIds",
+          "appSpecific",
+          "activated",
+          "wallets"
+        ]
+      },
+      "RegisterIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserResponseDto"
+          },
+          "temporaryAuthenticationToken": {
+            "type": "string"
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "supportedCredentialKinds": {
+            "$ref": "#/components/schemas/SupportedCredentialKindsDto"
+          },
+          "authenticatorSelection": {
+            "$ref": "#/components/schemas/AuthenticatorSelectionDto"
+          },
+          "attestation": {
+            "type": "object"
+          },
+          "pubKeyCredParams": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "excludeCredentials": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "otpUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "user",
+          "temporaryAuthenticationToken",
+          "challenge",
+          "supportedCredentialKinds",
+          "authenticatorSelection",
+          "attestation",
+          "pubKeyCredParams",
+          "excludeCredentials",
+          "otpUrl"
+        ]
+      },
+      "RegisterFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/UserResponseDto"
+          },
+          "authentication": {
+            "$ref": "#/components/schemas/AuthenticationResponseDto"
+          },
+          "wallets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WalletResponseDto"
+            }
+          }
+        },
+        "required": [
+          "user",
+          "authentication",
+          "wallets"
+        ]
+      },
+      "LoginIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "supportedCredentialKinds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportedCredentialKindDto"
+            }
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "challengeIdentifier": {
+            "type": "string"
+          },
+          "externalAuthenticationUrl": {
+            "type": "string"
+          },
+          "allowCredentials": {
+            "$ref": "#/components/schemas/AllowCredentialsDto"
+          },
+          "attestation": {
+            "type": "object"
+          },
+          "userVerification": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "supportedCredentialKinds",
+          "challenge",
+          "challengeIdentifier",
+          "externalAuthenticationUrl",
+          "allowCredentials",
+          "attestation",
+          "userVerification"
+        ]
+      },
+      "LoginFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "success"
+        ]
+      },
+      "SignIntentApiResponse": {
+        "type": "object",
+        "properties": {
+          "supportedCredentialKinds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "challenge": {
+            "type": "string"
+          },
+          "challengeIdentifier": {
+            "type": "string"
+          },
+          "externalAuthenticationUrl": {
+            "type": "string"
+          },
+          "allowCredentials": {
+            "$ref": "#/components/schemas/AllowCredentialsDto"
+          },
+          "userVerification": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "supportedCredentialKinds",
+          "challenge",
+          "challengeIdentifier",
+          "externalAuthenticationUrl",
+          "allowCredentials",
+          "userVerification"
+        ]
+      },
+      "SignFulfillApiResponse": {
+        "type": "object",
+        "properties": {
+          "network": {
+            "type": "object"
+          },
+          "status": {
+            "type": "object"
+          },
+          "signature": {
+            "$ref": "#/components/schemas/SignatureDto"
+          },
+          "dateRequested": {
+            "type": "string"
+          },
+          "dateSigned": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "network",
+          "status",
+          "dateRequested"
+        ]
+      },
+      "LogoutApiResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      },
+      "QueryWalletsApiResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "items"
         ]
       }
     }
