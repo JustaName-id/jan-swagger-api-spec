@@ -19,22 +19,6 @@
   ],
   "tags": [
     {
-      "name": "Siwe",
-      "description": ""
-    },
-    {
-      "name": "Subname",
-      "description": ""
-    },
-    {
-      "name": "Primary Name",
-      "description": ""
-    },
-    {
-      "name": "mApp",
-      "description": ""
-    },
-    {
       "name": "ApiKey",
       "description": ""
     },
@@ -48,71 +32,71 @@
     }
   ],
   "paths": {
-    "/ens/v1/siwe/request-challenge": {
+    "/ens/v2/siwe/challenges": {
       "post": {
-        "operationId": "SiweChallengeController_requestChallenge",
+        "operationId": "SiweV2WriteController_challenge",
         "summary": "Request a challenge",
-        "description": "Request a challenge.",
+        "description": "Request a challenge to sign",
         "parameters": [],
         "requestBody": {
           "required": true,
+          "description": "The domain, address, origin and chainId of the challenge",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SiweRequestChallengeApiRequest"
+                "$ref": "#/components/schemas/SiweChallengeApiBodyRequest"
               }
             }
           }
         },
         "responses": {
-          "201": {
-            "description": "The challenge was requested successfully.",
+          "default": {
+            "description": "The requested challenge",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SiweRequestChallengeApiResponseSuccessSwagger"
+                  "$ref": "#/components/schemas/SiweChallengeApiResponseSuccessSwagger"
                 }
               }
             }
           }
         },
         "tags": [
-          "Siwe",
-          "Public"
+          "Siwe V2"
         ]
       }
     },
-    "/ens/v1/siwe/verify-message": {
+    "/ens/v2/siwe/verify": {
       "post": {
-        "operationId": "SiweVerifyController_verify",
+        "operationId": "SiweV2WriteController_verify",
         "summary": "Verify a message",
         "description": "Verify a message.",
         "parameters": [],
         "requestBody": {
           "required": true,
+          "description": "The signature, message and address of the message to verify",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SiweVerifyMessageApiRequest"
+                "$ref": "#/components/schemas/SiweVerifyApiBodyRequest"
               }
             }
           }
         },
         "responses": {
-          "201": {
+          "default": {
             "description": "The message was verified successfully.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SiweVerifyMessageApiResponseSuccessSwagger"
+                  "$ref": "#/components/schemas/SiweVerifyApiResponseSuccessSwagger"
                 }
               }
             }
           }
         },
         "tags": [
-          "Siwe",
-          "Public"
+          "Siwe V2"
         ]
       }
     },
@@ -135,8 +119,7 @@
           }
         },
         "tags": [
-          "OffchainResolvers",
-          "Public"
+          "OffchainResolvers"
         ]
       }
     },
@@ -168,8 +151,7 @@
           }
         },
         "tags": [
-          "OffchainResolvers",
-          "Public"
+          "OffchainResolvers"
         ]
       }
     },
@@ -385,380 +367,7 @@
           }
         },
         "tags": [
-          "OffchainResolvers",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/accept": {
-      "post": {
-        "operationId": "SubdomainWriteController_accept",
-        "summary": "Accept Subname",
-        "description": "Accept a reserved Subname.",
-        "parameters": [
-          {
-            "name": "x-signature",
-            "in": "header",
-            "description": "The signature.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-message",
-            "in": "header",
-            "description": "The Message.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-address",
-            "in": "header",
-            "description": "The Address.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameAcceptApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname was claimed successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameAcceptApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/reserve": {
-      "post": {
-        "operationId": "SubdomainWriteController_apiReserve",
-        "summary": "Reserve Subname",
-        "description": "Reserve Subname to be claimed later.",
-        "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "description": "The Api Key.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameReserveApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname was reserved successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameReserveApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/add": {
-      "post": {
-        "operationId": "SubdomainWriteController_add",
-        "summary": "Add Subname",
-        "description": "Add a new subname",
-        "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "description": "The Api Key.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-signature",
-            "in": "header",
-            "description": "The signature.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-message",
-            "in": "header",
-            "description": "The Message.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-address",
-            "in": "header",
-            "description": "The Address.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameAddApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname was added successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameAddApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/update": {
-      "post": {
-        "operationId": "SubdomainWriteController_update",
-        "summary": "Update Subname",
-        "description": "Update the specified subname's data",
-        "parameters": [
-          {
-            "name": "x-signature",
-            "in": "header",
-            "description": "The signature.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-message",
-            "in": "header",
-            "description": "The Message.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-address",
-            "in": "header",
-            "description": "The Address.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameUpdateApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname was updated successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameUpdateApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/revoke": {
-      "post": {
-        "operationId": "SubdomainWriteController_revoke",
-        "summary": "Revoke Subname",
-        "description": "Revoke the specified subname",
-        "parameters": [
-          {
-            "name": "x-api-key",
-            "in": "header",
-            "description": "The Api Key.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-signature",
-            "in": "header",
-            "description": "The signature.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-message",
-            "in": "header",
-            "description": "The Message.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-address",
-            "in": "header",
-            "description": "The Address.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameRevokeApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname was revoked successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameRevokeApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
-        ]
-      }
-    },
-    "/ens/v1/subname/reject": {
-      "post": {
-        "operationId": "SubdomainWriteController_revokeInvitation",
-        "summary": "Reject Subname Invitation",
-        "description": "Reject the specified subname invitation",
-        "parameters": [
-          {
-            "name": "x-signature",
-            "in": "header",
-            "description": "The signature.",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-message",
-            "in": "header",
-            "description": "The Message.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "x-address",
-            "in": "header",
-            "description": "The Address.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SubnameRevokeApiRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "The Subname invitation was rejected successfully.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SubnameRevokeApiResponseSuccessSwagger"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Subname",
-          "Public"
+          "OffchainResolvers"
         ]
       }
     },
@@ -846,8 +455,7 @@
           }
         },
         "tags": [
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1148,8 +756,7 @@
           }
         },
         "tags": [
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1235,8 +842,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1382,8 +988,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1523,8 +1128,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1610,8 +1214,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1697,8 +1300,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1816,8 +1418,7 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
@@ -1963,24 +1564,497 @@
         },
         "tags": [
           "Subname",
-          "Subname",
-          "Public"
+          "Subname"
         ]
       }
     },
-    "/ens/v1/primary-name/address": {
+    "/ens/v2/subnames": {
       "get": {
-        "operationId": "PrimaryNameReadController_getPrimaryNameByAddress",
-        "summary": "Get by Address",
-        "description": "Retrieves primary name for a given address",
+        "operationId": "SubnameV2ReadController_find",
+        "summary": "Get Subname by Criteria",
+        "description": "Retrieves the subname matching the specified criteria",
         "parameters": [
           {
-            "name": "address",
+            "name": "chainId",
             "required": true,
             "in": "query",
-            "description": "The address of the primary name",
+            "description": "The chain id to filter by",
             "schema": {
-              "example": "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8",
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "subname",
+            "required": true,
+            "in": "query",
+            "description": "The subname to search for",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The subname to search for",
+            "required": true,
+            "name": "subname",
+            "in": "query",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "No subname found matching the specified criteria"
+          },
+          "default": {
+            "description": "Subname fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameGetApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      },
+      "post": {
+        "operationId": "SubnameV2WriteController_add",
+        "summary": "Add Subname",
+        "description": "Add a new subname",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname to add",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameAddApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The added subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameAddApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/all": {
+      "get": {
+        "operationId": "SubnameV2ReadController_findAll",
+        "summary": "Get All Subnames by Criteria",
+        "description": "Retrieves all subnames matching the specified criteria",
+        "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "The chain id to filter by",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number for pagination",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "The term to search for in domain names",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "name": "workspaceId",
+            "required": false,
+            "in": "query",
+            "description": "The workspace id to filter by",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ensDomains",
+            "required": false,
+            "in": "query",
+            "description": "The ens domains to filter by",
+            "schema": {
+              "example": [
+                "jan.eth",
+                "example.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": false,
+            "in": "query",
+            "description": "The address to filter by",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "name": "coinType",
+            "required": false,
+            "in": "query",
+            "description": "The address coin type to filter by",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "name": "isClaimed",
+            "required": false,
+            "in": "query",
+            "description": "Claimed status to filter by",
+            "schema": {
+              "default": true,
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "orderBy",
+            "required": false,
+            "in": "query",
+            "description": "The order by field",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "orderDirection",
+            "required": false,
+            "in": "query",
+            "description": "The order direction",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The chain id to filter by",
+            "required": true,
+            "name": "chainId",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Page number for pagination",
+            "required": false,
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Number of items per page",
+            "required": false,
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "example": 20,
+              "type": "number"
+            }
+          },
+          {
+            "description": "The term to search for in domain names",
+            "required": false,
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "example": "mySubname",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The workspace id to filter by",
+            "required": false,
+            "name": "workspaceId",
+            "in": "query",
+            "schema": {
+              "example": "b3f87e95-556d-401c-9b28-9f6050865f69",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ens domains to filter by",
+            "required": false,
+            "name": "ensDomains",
+            "in": "query",
+            "schema": {
+              "example": [
+                "jan.eth",
+                "example.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "The address to filter by",
+            "required": false,
+            "name": "address",
+            "in": "query",
+            "schema": {
+              "example": "0x1234567890123456789012345678901234567890",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The address coin type to filter by",
+            "required": false,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "description": "Claimed status to filter by",
+            "required": false,
+            "name": "isClaimed",
+            "in": "query",
+            "schema": {
+              "default": true,
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "The order by field",
+            "required": false,
+            "name": "orderBy",
+            "in": "query",
+            "schema": {
+              "example": "createdAt",
+              "enum": [
+                "createdAt",
+                "subnameCount"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "The order direction",
+            "required": false,
+            "name": "orderDirection",
+            "in": "query",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Subnames fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameGetAllApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/records": {
+      "get": {
+        "operationId": "SubnameV2ReadController_getRecords",
+        "summary": "Fetch Subname Records",
+        "description": "Retrieves all records associated with a subname through on-chain CCIP-Read flow",
+        "parameters": [
+          {
+            "name": "ens",
+            "required": true,
+            "in": "query",
+            "description": "The subname to fetch records for",
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerUrl",
+            "required": true,
+            "in": "query",
+            "description": "Provider URL",
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The subname to fetch records for",
+            "required": true,
+            "name": "ens",
+            "in": "query",
+            "schema": {
+              "example": "justanexample.eth",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Provider URL",
+            "required": true,
+            "name": "providerUrl",
+            "in": "query",
+            "schema": {
+              "example": "https://cloudflare-eth.com",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Records fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameRecordsApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/{subname}": {
+      "patch": {
+        "operationId": "SubnameV2WriteController_update",
+        "summary": "Update Subname",
+        "description": "Update the specified subname's data",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname to update",
+            "schema": {
+              "example": "dev.jan.eth",
               "type": "string"
             }
           },
@@ -1991,28 +2065,301 @@
             "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
             "schema": {
               "example": 11155111,
-              "enum": [
-                1,
-                11155111
-              ],
               "type": "number"
             }
           },
           {
-            "description": "The address of the primary name",
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
             "required": true,
-            "name": "address",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname update data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameUpdateApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The updated subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameUpdateApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/invitations": {
+      "post": {
+        "operationId": "SubnameV2WriteController_reserve",
+        "summary": "Reserve Subname",
+        "description": "Reserve Subname to be claimed later.",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname to reserve",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameReserveApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The reserved subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameReserveApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/subnames/invitations/{subname}": {
+      "patch": {
+        "operationId": "SubnameV2WriteController_accept",
+        "summary": "Accept Subname",
+        "description": "Accept the specified subname invitation.",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname to accept",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
             "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The subname acceptance data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameAcceptApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The accepted subname",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameAcceptApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      },
+      "delete": {
+        "operationId": "SubnameV2WriteController_revoke",
+        "summary": "Revoke Subname",
+        "description": "Revoke the specified subname invitation",
+        "parameters": [
+          {
+            "name": "subname",
+            "required": true,
+            "in": "path",
+            "description": "The subname invitation to revoke",
+            "schema": {
+              "example": "dev.jan.eth",
+              "type": "string"
+            }
+          },
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "query",
+            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "type": "number"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "description": "The Api Key.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "description": "Optional signature data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubnameRevokeApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "The revoked subname invitation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubnameRevokeApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Subname V2"
+        ]
+      }
+    },
+    "/ens/v2/primary-names/{address}/{chainId}": {
+      "get": {
+        "operationId": "PrimaryNameV2ReadController_findOne",
+        "summary": "Get Primary Name",
+        "description": "Retrieves primary name for a given address and chainId",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "path",
+            "description": "The address of the primary name",
             "schema": {
               "example": "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8",
               "type": "string"
             }
           },
           {
-            "description": "Chain id, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
-            "required": true,
             "name": "chainId",
-            "in": "query",
+            "required": true,
+            "in": "path",
+            "description": "The chain id of the primary name, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
             "schema": {
               "example": 11155111,
               "enum": [
@@ -2025,7 +2372,7 @@
         ],
         "responses": {
           "default": {
-            "description": "The primary name was fetched successfully.",
+            "description": "The primary name for the given address and chainId",
             "content": {
               "application/json": {
                 "schema": {
@@ -2036,17 +2383,30 @@
           }
         },
         "tags": [
-          "Primary Name",
-          "Public"
+          "Primary Name V2"
         ]
       }
     },
-    "/ens/v2/primary-name/criteria": {
+    "/ens/v2/primary-names/{chainId}": {
       "get": {
-        "operationId": "PrimaryNameReadController_findAllByCriteria",
-        "summary": "Get All Primary Names By Criteria",
-        "description": "Get All Primary Names By Criteria",
+        "operationId": "PrimaryNameV2ReadController_findAllByCriteria",
+        "summary": "Get All Primary Names",
+        "description": "Get All Primary Names for a specific chain with optional filtering",
         "parameters": [
+          {
+            "name": "chainId",
+            "required": true,
+            "in": "path",
+            "description": "The chain id to get primary names for, we only support Ethereum Mainnet and Sepolia Testnet (1 for mainnet, 11155111 for sepolia)",
+            "schema": {
+              "example": 11155111,
+              "enum": [
+                1,
+                11155111
+              ],
+              "type": "number"
+            }
+          },
           {
             "name": "page",
             "required": false,
@@ -2096,16 +2456,6 @@
                 "desc"
               ],
               "type": "string"
-            }
-          },
-          {
-            "name": "chainId",
-            "required": true,
-            "in": "query",
-            "description": "The chain id to filter by",
-            "schema": {
-              "example": 1,
-              "type": "number"
             }
           },
           {
@@ -2177,16 +2527,6 @@
                 "desc"
               ],
               "type": "string"
-            }
-          },
-          {
-            "description": "The chain id to filter by",
-            "required": true,
-            "name": "chainId",
-            "in": "query",
-            "schema": {
-              "example": 1,
-              "type": "number"
             }
           },
           {
@@ -2212,18 +2552,18 @@
         ],
         "responses": {
           "default": {
-            "description": "Primary Names were fetched successfully.",
+            "description": "Primary names that match the criteria",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PrimaryNameGetAllByCriteriaApiResponse"
+                  "$ref": "#/components/schemas/PrimaryNameGetAllApiResponse"
                 }
               }
             }
           }
         },
         "tags": [
-          "Public"
+          "Primary Name V2"
         ]
       }
     },
@@ -2284,22 +2624,76 @@
           }
         },
         "tags": [
-          "Primary Name",
-          "Public"
+          "Primary Name"
+        ]
+      }
+    },
+    "/ens/v2/primary-names": {
+      "post": {
+        "operationId": "PrimaryNameV2WriteController_setPrimaryName",
+        "summary": "Set Primary Name",
+        "description": "Set a Subname as Primary Name for an address.",
+        "parameters": [
+          {
+            "name": "x-signature",
+            "in": "header",
+            "description": "The signature.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-message",
+            "in": "header",
+            "description": "The Message.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-address",
+            "in": "header",
+            "description": "The Address.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Primary name data to be set",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrimaryNameSetApiBodyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Primary Name V2"
         ]
       }
     },
     "/api-key/v1/api-key/key": {
       "get": {
         "operationId": "ApiKeyReadController_findByKey",
-        "summary": "Get By Key",
-        "description": "Get By Key",
+        "summary": "Get api key by key",
+        "description": "Get api key by key",
         "parameters": [
           {
             "name": "x-api-key",
             "required": true,
             "in": "header",
-            "description": "Api Key",
+            "description": "The api key",
             "schema": {
               "type": "string"
             }
@@ -2307,7 +2701,7 @@
         ],
         "responses": {
           "default": {
-            "description": "Api Key was fetched successfully.",
+            "description": "The api key retreived",
             "content": {
               "application/json": {
                 "schema": {
@@ -2318,8 +2712,40 @@
           }
         },
         "tags": [
-          "ApiKey",
-          "Public"
+          "ApiKey"
+        ]
+      }
+    },
+    "/api-key/v2": {
+      "get": {
+        "operationId": "ApiKeyV2ReadController_findCurrent",
+        "summary": "Get Current API Key",
+        "description": "Retrieve the current API key information based on the provided key header",
+        "parameters": [
+          {
+            "name": "x-api-key",
+            "required": true,
+            "in": "header",
+            "description": "The API key to retrieve information for",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "The current API key information was retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKeyApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "ApiKey V2"
         ]
       }
     },
@@ -2353,6 +2779,7 @@
           }
         },
         "tags": [
+          "Broadcast",
           "Proxy"
         ]
       }
@@ -2946,11 +3373,12 @@
   },
   "components": {
     "schemas": {
-      "SiweRequestChallengeApiResponse": {
+      "SiweChallengeApiResponse": {
         "type": "object",
         "properties": {
           "challenge": {
             "type": "string",
+            "description": "The challenge message",
             "example": "domain wants you to sign in with your Ethereum account:\nAddress\n\nPlease sign this message to verify that you want to add/update your subdomain provided by justawallet to your account Address using JustAName\n\nURI: uri\nVersion: 1\nChain ID: ChainId\nNonce: nonce\nIssued At: Date\nExpiration Time: Date"
           }
         },
@@ -2958,7 +3386,7 @@
           "challenge"
         ]
       },
-      "SiweRequestChallengeApiResponseSuccessSwagger": {
+      "SiweChallengeApiResponseSuccessSwagger": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -2967,7 +3395,7 @@
             "description": "The status code of the response."
           },
           "result": {
-            "$ref": "#/components/schemas/SiweRequestChallengeApiResponseResultSwagger"
+            "$ref": "#/components/schemas/SiweChallengeApiResponseResultSwagger"
           }
         },
         "required": [
@@ -2975,11 +3403,12 @@
           "result"
         ]
       },
-      "SiweVerifyMessageApiResponse": {
+      "SiweVerifyApiResponse": {
         "type": "object",
         "properties": {
           "verified": {
             "type": "boolean",
+            "description": "Whether the Siwe message passed the verification",
             "example": true
           }
         },
@@ -2987,7 +3416,7 @@
           "verified"
         ]
       },
-      "SiweVerifyMessageApiResponseSuccessSwagger": {
+      "SiweVerifyApiResponseSuccessSwagger": {
         "type": "object",
         "properties": {
           "statusCode": {
@@ -2996,7 +3425,7 @@
             "description": "The status code of the response."
           },
           "result": {
-            "$ref": "#/components/schemas/SiweVerifyMessageApiResponseResultSwagger"
+            "$ref": "#/components/schemas/SiweVerifyApiResponseResultSwagger"
           }
         },
         "required": [
@@ -3559,6 +3988,158 @@
           "pagination"
         ]
       },
+      "SubnameGetApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/SubnameMetadataApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameGetApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing subname data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameGetApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameGetAllApiResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Array of subnames",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubnameApiResponse"
+            }
+          },
+          "pagination": {
+            "description": "Pagination information",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnamePaginationApiResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "data",
+          "pagination"
+        ]
+      },
+      "SubnameGetAllApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing subnames data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameGetAllApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "SubnameRecordsApiResponse": {
+        "type": "object",
+        "properties": {
+          "ens": {
+            "type": "string",
+            "example": "user.justan.id"
+          },
+          "isClaimed": {
+            "type": "boolean",
+            "example": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "example": "2024-05-22T11:55:29.000Z"
+          },
+          "isJAN": {
+            "type": "boolean",
+            "example": true
+          },
+          "records": {
+            "$ref": "#/components/schemas/SubnameMetadataApiResponse"
+          }
+        },
+        "required": [
+          "ens",
+          "isClaimed",
+          "claimedAt",
+          "isJAN",
+          "records"
+        ]
+      },
+      "SubnameRecordsApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing records data or error",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/SubnameRecordsApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
       "PrimaryNameApiResponse": {
         "type": "object",
         "properties": {
@@ -3603,7 +4184,7 @@
           "result"
         ]
       },
-      "PrimaryNameGetAllByCriteriaApiResponse": {
+      "PrimaryNameGetAllApiResponse": {
         "type": "object",
         "properties": {
           "data": {
