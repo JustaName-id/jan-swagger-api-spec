@@ -3714,6 +3714,59 @@
           "Public"
         ]
       }
+    },
+    "/wallet/v2/passkeys": {
+      "post": {
+        "operationId": "PasskeyV2WriteController_register",
+        "summary": "Register Passkey",
+        "description": "Register a new passkey for the user. This endpoint allows users to register their passkeys securely.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyRegisterApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
+          "Public"
+        ]
+      },
+      "get": {
+        "operationId": "PasskeyV2ReadController_findByCredId",
+        "summary": "Get Passkey by Credential ID",
+        "description": "Retrieve a passkey by its credential ID. This endpoint allows users to fetch their passkey details using the unique credential identifier.",
+        "parameters": [
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "query",
+            "description": "Unique identifier for the passkey credential",
+            "schema": {
+              "example": "credential-uuid-12345",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
+          "Public"
+        ]
+      }
     }
   },
   "components": {
