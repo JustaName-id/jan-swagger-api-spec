@@ -3767,6 +3767,40 @@
           "Public"
         ]
       }
+    },
+    "/wallet/v2/passkeys/many": {
+      "get": {
+        "operationId": "PasskeyV2ReadController_findManyByCredIds",
+        "summary": "Get Passkeys by Credential IDs",
+        "description": "Retrieve multiple passkeys by their credential IDs. This endpoint allows users to fetch details of multiple passkeys using their unique credential identifiers.",
+        "parameters": [
+          {
+            "name": "credentialIds",
+            "required": true,
+            "in": "query",
+            "description": "Array of unique identifiers for the passkey credentials",
+            "schema": {
+              "example": [
+                "credential-uuid-12345",
+                "credential-uuid-67890"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
+          "Public"
+        ]
+      }
     }
   },
   "components": {
