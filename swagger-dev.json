@@ -3172,11 +3172,11 @@
         ]
       }
     },
-    "/proxy/v1/exchange/create": {
+    "/proxy/v1/exchange/intent": {
       "get": {
         "operationId": "ExchangeController_createTransaction",
-        "summary": "Create Exchange Transaction",
-        "description": "Create a new exchange transaction with the specified parameters",
+        "summary": "Request Details for Exchange transaction",
+        "description": "Gets transfer details for an exchange transaction",
         "parameters": [
           {
             "name": "from",
