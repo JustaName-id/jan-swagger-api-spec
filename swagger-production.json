@@ -3033,6 +3033,351 @@
         ]
       }
     },
+    "/proxy/v1/exchange/currencies": {
+      "get": {
+        "operationId": "ExchangeController_getCurrencies",
+        "summary": "Get Currencies supported by exchange",
+        "description": "Retrieve all currencies supported by the exchange",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/currencies-full": {
+      "get": {
+        "operationId": "ExchangeController_getCurrenciesFull",
+        "summary": "Get Full Currencies supported by exchange",
+        "description": "Retrieve all currencies with their details supported by the exchange",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/pairs": {
+      "get": {
+        "operationId": "ExchangeController_getPairs",
+        "summary": "Get Token Pairs supported by exchange",
+        "description": "Retrieve all token pairs supported by the exchange",
+        "parameters": [
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "Source currency code",
+            "schema": {
+              "example": "BTC",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": false,
+            "in": "query",
+            "description": "Target currency code",
+            "schema": {
+              "example": "ETH",
+              "type": "string"
+            }
+          },
+          {
+            "name": "txType",
+            "required": false,
+            "in": "query",
+            "description": "Transaction type",
+            "schema": {
+              "example": "fixed",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/amount": {
+      "get": {
+        "operationId": "ExchangeController_getAmount",
+        "summary": "Get Amount for Token Pair",
+        "description": "Retrieve exchange estimates for a specific token pair",
+        "parameters": [
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "description": "Source currency code",
+            "schema": {
+              "example": "BTC",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "description": "Target currency code",
+            "schema": {
+              "example": "ETH",
+              "type": "string"
+            }
+          },
+          {
+            "name": "amountFrom",
+            "required": true,
+            "in": "query",
+            "description": "Amount to exchange from source currency",
+            "schema": {
+              "example": "1.5",
+              "type": "string"
+            }
+          },
+          {
+            "name": "userMetadata",
+            "required": false,
+            "in": "query",
+            "description": "Additional user metadata",
+            "schema": {
+              "example": {
+                "userId": "12345",
+                "source": "web"
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/intent": {
+      "get": {
+        "operationId": "ExchangeController_createTransaction",
+        "summary": "Request Details for Exchange transaction",
+        "description": "Gets transfer details for an exchange transaction",
+        "parameters": [
+          {
+            "name": "from",
+            "required": true,
+            "in": "query",
+            "description": "Source currency code",
+            "schema": {
+              "example": "BTC",
+              "type": "string"
+            }
+          },
+          {
+            "name": "to",
+            "required": true,
+            "in": "query",
+            "description": "Target currency code",
+            "schema": {
+              "example": "ETH",
+              "type": "string"
+            }
+          },
+          {
+            "name": "amountFrom",
+            "required": true,
+            "in": "query",
+            "description": "Amount to exchange from source currency",
+            "schema": {
+              "example": "1.5",
+              "type": "string"
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Recipient address",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          },
+          {
+            "name": "extraId",
+            "required": false,
+            "in": "query",
+            "description": "Additional ID for address for currencies that use additional ID for transaction processing",
+            "schema": {
+              "example": "memo12345",
+              "type": "string"
+            }
+          },
+          {
+            "name": "refundAddress",
+            "required": false,
+            "in": "query",
+            "description": "Address of the wallet to refund in case of any technical issues during the exchange",
+            "schema": {
+              "example": "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa",
+              "type": "string"
+            }
+          },
+          {
+            "name": "refundExtraId",
+            "required": false,
+            "in": "query",
+            "description": "extraId for refundAddress",
+            "schema": {
+              "example": "refund-memo123",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromAddress",
+            "required": false,
+            "in": "query",
+            "description": "Address of the wallet from which the user will send payin",
+            "schema": {
+              "example": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromExtraId",
+            "required": false,
+            "in": "query",
+            "description": "extraId for fromAddress",
+            "schema": {
+              "example": "from-memo456",
+              "type": "string"
+            }
+          },
+          {
+            "name": "userMetadata",
+            "required": false,
+            "in": "query",
+            "description": "Additional user metadata",
+            "schema": {
+              "example": {
+                "userId": "12345",
+                "source": "web",
+                "notes": "Priority transaction"
+              },
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/status": {
+      "get": {
+        "operationId": "ExchangeController_getTransactionStatus",
+        "summary": "Get Exchange transaction status",
+        "description": "Retrieve the status of an exchange transaction by its ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
+    "/proxy/v1/exchange/transactions": {
+      "get": {
+        "operationId": "ExchangeController_getTransactions",
+        "summary": "Get Exchange transactions",
+        "description": "Retrieve the status of an exchange transaction by its ID",
+        "parameters": [
+          {
+            "name": "extraId",
+            "required": false,
+            "in": "query",
+            "description": "Additional ID for address for currencies that use additional ID for transaction processing",
+            "schema": {
+              "example": "memo12345",
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "required": false,
+            "in": "query",
+            "description": "Unix timestamp in microseconds (16 digits). Filter for records where createdAt >= since",
+            "schema": {
+              "example": 1664897070000000,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of records to retrieve (max 100, default 10)",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Records cursor for pagination",
+            "schema": {
+              "minimum": 0,
+              "example": 0,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
     "/wallet/v1/contract/all": {
       "get": {
         "operationId": "ContractReadController_findAll",
@@ -3366,6 +3711,93 @@
           }
         },
         "tags": [
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v2/passkeys": {
+      "post": {
+        "operationId": "PasskeyV2WriteController_register",
+        "summary": "Register Passkey",
+        "description": "Register a new passkey for the user. This endpoint allows users to register their passkeys securely.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasskeyRegisterApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
+          "Public"
+        ]
+      },
+      "get": {
+        "operationId": "PasskeyV2ReadController_findByCredId",
+        "summary": "Get Passkey by Credential ID",
+        "description": "Retrieve a passkey by its credential ID. This endpoint allows users to fetch their passkey details using the unique credential identifier.",
+        "parameters": [
+          {
+            "name": "credentialId",
+            "required": true,
+            "in": "query",
+            "description": "Unique identifier for the passkey credential",
+            "schema": {
+              "example": "credential-uuid-12345",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
+          "Public"
+        ]
+      }
+    },
+    "/wallet/v2/passkeys/many": {
+      "get": {
+        "operationId": "PasskeyV2ReadController_findManyByCredIds",
+        "summary": "Get Passkeys by Credential IDs",
+        "description": "Retrieve multiple passkeys by their credential IDs. This endpoint allows users to fetch details of multiple passkeys using their unique credential identifiers.",
+        "parameters": [
+          {
+            "name": "credentialIds",
+            "required": true,
+            "in": "query",
+            "description": "Array of unique identifiers for the passkey credentials",
+            "schema": {
+              "example": [
+                "credential-uuid-12345",
+                "credential-uuid-67890"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Passkey V2",
           "Public"
         ]
       }
