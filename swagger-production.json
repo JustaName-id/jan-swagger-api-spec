@@ -3033,6 +3033,89 @@
         ]
       }
     },
+    "/proxy/v1/portfolio/transfers": {
+      "get": {
+        "operationId": "PortfolioController_getAssetsTransfersForAddress",
+        "summary": "Get Assets Transfers for Address",
+        "description": "Retrieves assets transfers for a given address and chain IDs",
+        "parameters": [
+          {
+            "name": "chainIds",
+            "required": false,
+            "in": "query",
+            "description": "Chain IDs to filter asset transfers by",
+            "schema": {
+              "example": [
+                1,
+                137,
+                56
+              ],
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          },
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address to filter asset transfers by",
+            "schema": {
+              "example": "0x1234567890abcdef1234567890abcdef12345678",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Query parameters for fetching asset transfers for an address",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetTransfersQueryParams"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Asset Transfers for Address fetched successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "statusCode": {
+                          "type": "number",
+                          "example": 200
+                        },
+                        "result": {
+                          "properties": {
+                            "data": {
+                              "type": "object",
+                              "$ref": "#/components/schemas/AssetTransfersForAddressApiResponseSuccessSwagger"
+                            },
+                            "error": {
+                              "type": "string",
+                              "nullable": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Proxy"
+        ]
+      }
+    },
     "/proxy/v1/exchange/currencies": {
       "get": {
         "operationId": "ExchangeController_getCurrencies",
@@ -4769,6 +4852,47 @@
           },
           "result": {
             "$ref": "#/components/schemas/NftsForAddressApiResponseResultSwagger"
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "AssetTransfersForAddressApiResponse": {
+        "type": "object",
+        "properties": {
+          "transfers": {
+            "description": "Array of asset transfer data",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetTransferApiResponse"
+            }
+          },
+          "pagination": {
+            "description": "Pagination information for the asset transfers list",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationApiResponse"
+              }
+            ]
+          }
+        },
+        "required": [
+          "transfers",
+          "pagination"
+        ]
+      },
+      "AssetTransfersForAddressApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "The status code of the response."
+          },
+          "result": {
+            "$ref": "#/components/schemas/AssetTransfersForAddressApiResponseResultSwagger"
           }
         },
         "required": [
