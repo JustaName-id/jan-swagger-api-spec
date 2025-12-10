@@ -3139,6 +3139,33 @@
           "Public"
         ]
       }
+    },
+    "/wallet/v2/analytics": {
+      "post": {
+        "operationId": "AnalyticsV2Controller_logAccountIssuance",
+        "summary": "Log Account Issuance",
+        "description": "Log an account issuance event for analytics tracking. Requires a valid API key.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogAccountIssuanceApiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Analytics V2",
+          "Public"
+        ]
+      }
     }
   },
   "components": {
