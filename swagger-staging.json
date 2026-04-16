@@ -1988,7 +1988,7 @@
             "name": "ens",
             "required": true,
             "in": "query",
-            "description": "The subname to fetch records for",
+            "description": "The subname to fetch records for. Supports interoperable name format: name@chain (e.g. vitalik.eth@eip155:1 or vitalik.eth@ethereum). When chain is specified, only the address for that chain is returned.",
             "schema": {
               "example": "justanexample.eth",
               "type": "string"
@@ -2005,7 +2005,7 @@
             }
           },
           {
-            "description": "The subname to fetch records for",
+            "description": "The subname to fetch records for. Supports interoperable name format: name@chain (e.g. vitalik.eth@eip155:1 or vitalik.eth@ethereum). When chain is specified, only the address for that chain is returned.",
             "required": true,
             "name": "ens",
             "in": "query",
