@@ -2339,6 +2339,218 @@
         ]
       }
     },
+    "/ens/v2/resolve": {
+      "get": {
+        "operationId": "ResolveV2ReadController_resolve",
+        "summary": "Resolve ENS records (single or batch)",
+        "description": "Resolves one or more ENS names through the on-chain CCIP-Read flow. Repeat the ens query parameter (?ens=a.eth&ens=b.eth) to batch up to 50 names. The caller must supply an HTTPS rpcUrl, preferably via the X-Rpc-Url header (recommended; keeps the API key out of access logs) or alternatively as a query parameter. Private/loopback/link-local hosts are rejected. Response shape is polymorphic by request cardinality: an object for single-ens requests, an array (in input order, null for failed entries) for batches.",
+        "parameters": [
+          {
+            "name": "ens",
+            "required": true,
+            "in": "query",
+            "description": "ENS name(s) to resolve. Pass once for a single resolution or repeat to batch (?ens=a.eth&ens=b.eth). Supports interoperable name format (e.g. vitalik.eth@eip155:1).",
+            "schema": {
+              "minItems": 1,
+              "maxItems": 50,
+              "example": [
+                "vitalik.eth",
+                "nick.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "rpcUrl",
+            "required": false,
+            "in": "query",
+            "description": "HTTPS RPC URL used for on-chain reads. Caller-supplied so the cost of the resolution is paid by the caller, not the service. PREFER the X-Rpc-Url request header instead -- query strings end up in access logs and most rpcUrls embed an API key. Must use https. Private/loopback/link-local hosts are rejected.",
+            "schema": {
+              "example": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rpc-url",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "ENS name(s) to resolve. Pass once for a single resolution or repeat to batch (?ens=a.eth&ens=b.eth). Supports interoperable name format (e.g. vitalik.eth@eip155:1).",
+            "name": "ens",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "minItems": 1,
+              "maxItems": 50,
+              "example": [
+                "vitalik.eth",
+                "nick.eth"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "HTTPS RPC URL used for on-chain reads. Caller-supplied so the cost of the resolution is paid by the caller, not the service. PREFER the X-Rpc-Url request header instead -- query strings end up in access logs and most rpcUrls embed an API key. Must use https. Private/loopback/link-local hosts are rejected.",
+            "required": false,
+            "name": "rpcUrl",
+            "in": "query",
+            "schema": {
+              "example": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Rpc-Url",
+            "in": "header",
+            "description": "Preferred location for the caller-supplied rpcUrl. Takes precedence over the rpcUrl query parameter when both are present. Use this in production so the API key does not land in HTTP access logs.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Records resolved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResolveApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Resolve V2"
+        ]
+      }
+    },
+    "/ens/v2/reverse": {
+      "get": {
+        "operationId": "ReverseV2ReadController_reverse",
+        "summary": "Reverse-resolve ENS names from address(es) (single or batch)",
+        "description": "Strict ENSIP-19 reverse resolution. Repeat the address query parameter (?address=0x..&address=0x..) to batch up to 50 addresses. Caller must supply an HTTPS rpcUrl, preferably via the X-Rpc-Url header (recommended; keeps the API key out of access logs) or alternatively as a query parameter. Private/loopback/link-local hosts are rejected. Response shape is polymorphic by request cardinality: an object for single-address requests, an array (in input order, per-item error in `error`) for batches. No JAN-DB fallback — only on-chain reverse records via the Universal Resolver are returned.",
+        "parameters": [
+          {
+            "name": "address",
+            "required": true,
+            "in": "query",
+            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request.",
+            "schema": {
+              "minItems": 1,
+              "maxItems": 50,
+              "example": [
+                "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "coinType",
+            "required": true,
+            "in": "query",
+            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Required — no implicit chainId conversion.",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "name": "rpcUrl",
+            "required": false,
+            "in": "query",
+            "description": "HTTPS RPC URL used for on-chain reads. Caller-supplied so the cost of the resolution is paid by the caller, not the service. PREFER the X-Rpc-Url request header instead -- query strings end up in access logs and most rpcUrls embed an API key. Must use https. Private/loopback/link-local hosts are rejected.",
+            "schema": {
+              "example": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY",
+              "type": "string"
+            }
+          },
+          {
+            "name": "x-rpc-url",
+            "required": true,
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request.",
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "minItems": 1,
+              "maxItems": 50,
+              "example": [
+                "0xb965a5f3a0fC18D84E68883ccAd508445a7917A8"
+              ],
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Required — no implicit chainId conversion.",
+            "required": true,
+            "name": "coinType",
+            "in": "query",
+            "schema": {
+              "example": 60,
+              "type": "number"
+            }
+          },
+          {
+            "description": "HTTPS RPC URL used for on-chain reads. Caller-supplied so the cost of the resolution is paid by the caller, not the service. PREFER the X-Rpc-Url request header instead -- query strings end up in access logs and most rpcUrls embed an API key. Must use https. Private/loopback/link-local hosts are rejected.",
+            "required": false,
+            "name": "rpcUrl",
+            "in": "query",
+            "schema": {
+              "example": "https://eth-mainnet.g.alchemy.com/v2/YOUR_KEY",
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-Rpc-Url",
+            "in": "header",
+            "description": "Preferred location for the caller-supplied rpcUrl. Takes precedence over the rpcUrl query parameter when both are present. Use this in production so the API key does not land in HTTP access logs.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Reverse resolved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReverseApiResponseSuccessSwagger"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reverse V2"
+        ]
+      }
+    },
     "/ens/v2/primary-names/{address}/{chainId}": {
       "get": {
         "operationId": "PrimaryNameV2ReadController_findOne",
@@ -3656,6 +3868,11 @@
           },
           "records": {
             "$ref": "#/components/schemas/SubnameMetadataApiResponse"
+          },
+          "viaUniversalResolver": {
+            "type": "boolean",
+            "example": true,
+            "description": "True when the resolution was performed through the ENS Universal Resolver (ENSv2-ready path). The live canary spec at apps/ens/test/.../universal-resolver.canary.spec.ts guards this guarantee against regressions."
           }
         },
         "required": [
@@ -3663,7 +3880,8 @@
           "isClaimed",
           "claimedAt",
           "isJAN",
-          "records"
+          "records",
+          "viaUniversalResolver"
         ]
       },
       "SubnameRecordsApiResponseSuccessSwagger": {
@@ -3679,6 +3897,50 @@
             "allOf": [
               {
                 "$ref": "#/components/schemas/SubnameRecordsApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "ResolveApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing resolved records.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ResolveApiResponseResultSwagger"
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "result"
+        ]
+      },
+      "ReverseApiResponseSuccessSwagger": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "number",
+            "example": 200,
+            "description": "HTTP status code of the response"
+          },
+          "result": {
+            "description": "Response payload containing the reverse resolution result.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReverseApiResponseResultSwagger"
               }
             ]
           }
