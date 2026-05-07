@@ -2440,13 +2440,13 @@
       "get": {
         "operationId": "ReverseV2ReadController_reverse",
         "summary": "Reverse-resolve ENS names from address(es) (single or batch)",
-        "description": "Strict ENSIP-19 reverse resolution. Repeat the address query parameter (?address=0x..&address=0x..) to batch up to 50 addresses. Caller must supply an HTTPS rpcUrl, preferably via the X-Rpc-Url header (recommended; keeps the API key out of access logs) or alternatively as a query parameter. Private/loopback/link-local hosts are rejected. Response shape is polymorphic by request cardinality: an object for single-address requests, an array (in input order, per-item error in `error`) for batches. No JAN-DB fallback — only on-chain reverse records via the Universal Resolver are returned.",
+        "description": "ENSIP-19 reverse resolution with a 3-step fallback chain per slot: (1) on-chain lookup with the caller-supplied (or interop-derived) coinType, (2) on-chain lookup with the ENSIP-19 default coinType (0x80000000) when step 1 returns null, (3) JustaName offchain primary-name store when both on-chain attempts return null. The response field `viaUniversalResolver` is true for steps 1+2 and false for step 3 so callers can distinguish on-chain from JAN-served names. Repeat the address query parameter (?address=0x..&address=0x..) to batch up to 50 addresses. Caller must supply an HTTPS rpcUrl, preferably via the X-Rpc-Url header (recommended; keeps the API key out of access logs) or alternatively as a query parameter. Private/loopback/link-local hosts are rejected. Response shape is polymorphic by request cardinality: an object for single-address requests, an array (in input order, per-item error in `error`) for batches.",
         "parameters": [
           {
             "name": "address",
             "required": true,
             "in": "query",
-            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request.",
+            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request. Each entry may be a plain hex address (0x...) or an interop-formatted address (0x...@eip155:<chainId> or 0x...@<chainLabel>); when the chain suffix is present it overrides the request-level coinType for that slot.",
             "schema": {
               "minItems": 1,
               "maxItems": 50,
@@ -2461,9 +2461,9 @@
           },
           {
             "name": "coinType",
-            "required": true,
+            "required": false,
             "in": "query",
-            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Required — no implicit chainId conversion.",
+            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Optional only when every address carries an interop chain suffix (e.g. 0x...@eip155:1) -- for plain addresses the coinType is required, otherwise that slot fails with a 400. When both the suffix and coinType are supplied for the same address, the suffix wins.",
             "schema": {
               "example": 60,
               "type": "number"
@@ -2488,7 +2488,7 @@
             }
           },
           {
-            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request.",
+            "description": "Address(es) to reverse-resolve. Pass once for a single resolution or repeat to batch (?address=0x...&address=0x...). Up to 50 per request. Each entry may be a plain hex address (0x...) or an interop-formatted address (0x...@eip155:<chainId> or 0x...@<chainLabel>); when the chain suffix is present it overrides the request-level coinType for that slot.",
             "name": "address",
             "in": "query",
             "required": true,
@@ -2505,8 +2505,8 @@
             }
           },
           {
-            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Required — no implicit chainId conversion.",
-            "required": true,
+            "description": "ENSIP-19 coinType identifying which chain's reverse record to look up. Mainnet primary = 60. EVM L2 primary = 0x80000000 | chainId (e.g. Base = 2147492837 / 0x80002105). Optional only when every address carries an interop chain suffix (e.g. 0x...@eip155:1) -- for plain addresses the coinType is required, otherwise that slot fails with a 400. When both the suffix and coinType are supplied for the same address, the suffix wins.",
+            "required": false,
             "name": "coinType",
             "in": "query",
             "schema": {
